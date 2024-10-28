@@ -58,4 +58,23 @@ internal class Creature
             level++;
         }
     }
+
+    public void Go(Direction direction)
+    {
+        Console.WriteLine($"{Name} goes {direction.ToString().ToLower()}");
+    }
+
+    public void Go(Direction[] directions)
+    {
+        foreach (var direction in directions)
+        {
+            Go(direction);
+        }
+    }
+
+    public void Go(string letters)
+    {
+        var directions = DirectionParser.Parse(letters);
+        Go(directions);
+    }
 }
