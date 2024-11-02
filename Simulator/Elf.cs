@@ -9,15 +9,13 @@ public class Elf : Creature
     public int Agility
     {   
         get => agility;
-        init
-        {
-            agility = value < 1 ? 1 : (value > 10 ? 10 : value);
-        }
+        init => agility = Validator.Limiter(value, 0, 10);
     }
 
     private int singCounter = 0;
 
     public override int Power => 8 * Level + 2 * Agility;
+    public override string Info => $"{Name} [{Level}][{Agility}]";
 
 
     public Elf() { }

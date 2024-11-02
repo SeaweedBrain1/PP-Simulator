@@ -6,15 +6,13 @@ public class Orc : Creature
     public int Rage 
     {
         get => rage;
-        init
-        {
-            rage = value < 1 ? 1 : (value > 10 ? 10 : value);
-        }
+        init => rage = Validator.Limiter(value, 0, 10);
     }
 
     private int huntCounter = 0;
 
     public override int Power => 7 * Level + 3 * rage;
+    public override string Info => $"{Name} [{Level}][{Rage}]";
 
 
     public Orc() { }
