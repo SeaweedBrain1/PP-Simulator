@@ -5,10 +5,11 @@ internal class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Starting Simulator!\n");
-        Lab4a();
-        Creature c = new Elf("Elandor", 5, 3);
-        Console.WriteLine(c);  // ELF: Elandor [5]
-        Lab4b();
+        //Lab4a();
+        //Creature c = new Elf("Elandor", 5, 3);
+        //Console.WriteLine(c);  // ELF: Elandor [5]
+        //Lab4b();
+        lab5a();
     }
 
     static void Lab4a()
@@ -61,5 +62,26 @@ internal class Program
             ELF: E## [10][0]
             ORC: Morgash [6][4]
         */
+    }
+
+    static void lab5a()
+    {
+        try
+        {
+            Rectangle rectangle1 = new Rectangle(7, 8, 1, 2);
+            Rectangle rectangle2 = new Rectangle(new Point(2, 2), new Point(1, 1));
+
+            Console.WriteLine($"rectangle1: {rectangle1}, rectangle2: {rectangle2}");
+
+            Point pointInside = new Point(3, 4);
+            Point pointOutside = new Point(-1, 0);
+
+            Console.WriteLine($"Punkt {pointInside} wewnatrz prostokata {rectangle1}: {rectangle1.Contains(pointInside)}");
+            Console.WriteLine($"Punkt {pointOutside} wewnatrz prostokata {rectangle1}: {rectangle1.Contains(pointOutside)}");
+        }
+        catch (ArgumentException error)
+        {
+            Console.WriteLine(error.Message);
+        }
     }
 }
