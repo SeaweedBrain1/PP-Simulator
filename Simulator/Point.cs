@@ -14,7 +14,7 @@ public readonly struct Point
             Direction.Right => new Point(X + 1, Y),
             Direction.Down => new Point(X, Y - 1),
             Direction.Left => new Point(X - 1, Y),
-            _ => throw new ArgumentException("Invalid direction")
+            _ => throw new ArgumentException("Niepoprawny kierunek")
         };
     }
 
@@ -27,7 +27,7 @@ public readonly struct Point
             Direction.Right => new Point(X + 1, Y - 1),
             Direction.Down => new Point(X - 1, Y - 1),
             Direction.Left => new Point(X - 1, Y + 1),
-            _ => throw new ArgumentException("Invalid direction")
+            _ => throw new ArgumentException("Niepoprawny kierunek")
         };
     }
 }

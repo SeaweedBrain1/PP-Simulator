@@ -1,4 +1,6 @@
-﻿namespace Simulator;
+﻿using Simulator.Maps;
+
+namespace Simulator;
 
 internal class Program
 {
@@ -9,7 +11,8 @@ internal class Program
         //Creature c = new Elf("Elandor", 5, 3);
         //Console.WriteLine(c);  // ELF: Elandor [5]
         //Lab4b();
-        lab5a();
+        //lab5a();
+        Lab5b();
     }
 
     static void Lab4a()
@@ -82,6 +85,29 @@ internal class Program
         catch (ArgumentException error)
         {
             Console.WriteLine(error.Message);
+        }
+    }
+
+    static void Lab5b()
+    {
+        try
+        {
+            SmallSquareMap map = new SmallSquareMap(10);
+
+            Console.WriteLine(map.Exist(new Point(5, 5)));  // True
+            Console.WriteLine(map.Exist(new Point(10, 10))); // False
+
+            Point start = new Point(4, 4);
+            Console.WriteLine(map.Next(start, Direction.Up));     // (4, 5)
+            Console.WriteLine(map.Next(start, Direction.Right));  // (5, 4)
+            Console.WriteLine(map.Next(new Point(9, 9), Direction.Right));  // (9, 9)
+
+            Console.WriteLine(map.NextDiagonal(start, Direction.Up));   // (5, 5)
+            Console.WriteLine(map.NextDiagonal(new Point(0, 0), Direction.Left));  // (0, 0)
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            Console.WriteLine(ex.Message);
         }
     }
 }
