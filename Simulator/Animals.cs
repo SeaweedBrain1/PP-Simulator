@@ -1,6 +1,6 @@
 ﻿namespace Simulator;
 
-internal class Animals
+public class Animals
 {
     private string description = "Unknown";
     public required string Description 

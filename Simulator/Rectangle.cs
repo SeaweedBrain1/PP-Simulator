@@ -2,7 +2,7 @@
 
 namespace Simulator;
 
-internal class Rectangle
+public class Rectangle
 {
     public readonly int X1, X2, Y1, Y2;
     public Rectangle(int x1, int y1, int x2, int y2)

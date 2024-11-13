@@ -12,7 +12,9 @@ internal class Program
         //Console.WriteLine(c);  // ELF: Elandor [5]
         //Lab4b();
         //lab5a();
-        Lab5b();
+        //Lab5b();
+        Orc o = new Orc();
+        Console.WriteLine(Orc.Go("UDL"));
     }
 
     static void Lab4a()

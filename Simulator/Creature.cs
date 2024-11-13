@@ -1,4 +1,7 @@
-﻿namespace Simulator;
+﻿using System.Linq;
+using System.Numerics;
+
+namespace Simulator;
 
 public abstract class Creature
 {
@@ -33,7 +36,7 @@ public abstract class Creature
     public Creature() { }
 
 
-    public abstract void SayHi();
+    public abstract string Greeting();
 
     public void Upgrade()
     {
@@ -43,22 +46,17 @@ public abstract class Creature
         }
     }
 
-    public void Go(Direction direction)
+    public string Go(Direction direction) => $"{direction.ToString().ToLower()}";
+    public string[] Go(Direction[] directions)
     {
-        Console.WriteLine($"{Name} goes {direction.ToString().ToLower()}");
-    }
-
-    public void Go(Direction[] directions)
-    {
-        foreach (var direction in directions)
+        var output = new string[directions.Length];
+        for (int i =0; i< directions.Length; i++)
         {
-            Go(direction);
+            output[i] = Go(directions[i]);
         }
+        return output;
     }
 
-    public void Go(string letters)
-    {
-        var directions = DirectionParser.Parse(letters);
-        Go(directions);
-    }
+    public string[] Go(string letters) => Go(DirectionParser.Parse(letters));
+
 }

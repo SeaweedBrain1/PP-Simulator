@@ -1,6 +1,6 @@
 ﻿namespace Simulator;
 
-internal class Birds : Animals
+public class Birds : Animals
 {
     private bool canFly = true;
     public bool CanFly
