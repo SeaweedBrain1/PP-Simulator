@@ -1,13 +1,12 @@
-﻿using System.Net.Http.Headers;
+﻿using Simulator.Maps;
+using Simulator;
 
-namespace Simulator.Maps;
-
-public class SmallSquareMap: Map
+public class SmallTorusMap : Map
 {
     private readonly Rectangle bounds;
     public  int Size {  get; }
 
-    public SmallSquareMap(int size)
+    public SmallTorusMap(int size)
     {
         if (size < 5 || size > 20)
         {
@@ -15,7 +14,6 @@ public class SmallSquareMap: Map
         }
         Size = size;
         bounds = new Rectangle(0, 0, Size - 1, Size - 1);
-
     }
 
     public override bool Exist(Point p)
@@ -26,12 +24,12 @@ public class SmallSquareMap: Map
     public override Point Next(Point p, Direction d)
     {
         var moved = p.Next(d);
-        return Exist(moved) ? moved : p;
+        return new Point((moved.X + Size) % Size, (moved.Y + Size) % Size);
     }
 
     public override Point NextDiagonal(Point p, Direction d)
     {
         var moved = p.NextDiagonal(d);
-        return Exist(moved) ? moved : p;
+        return new Point((moved.X + Size) % Size, (moved.Y + Size) % Size);
     }
 }
