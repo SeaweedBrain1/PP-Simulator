@@ -13,6 +13,7 @@ public class SmallSquareMap: Map
         {
             throw new ArgumentOutOfRangeException(nameof(size), "rozmiar musi byc z przedzialu 5-20");
         }
+
         Size = size;
         bounds = new Rectangle(0, 0, Size - 1, Size - 1);
 
