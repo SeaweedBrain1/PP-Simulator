@@ -1,10 +1,20 @@
-﻿using System.Linq;
+﻿using Simulator.Maps;
+using System.Linq;
 using System.Numerics;
 
 namespace Simulator;
 
 public abstract class Creature
 {
+    public Map? Map { get; private set; }
+    public Point Position { get; private set; }
+
+    public void InitMapAndPosition(Map map, Point position) { }
+
+
+
+
+
     private string name = "Unknown";
     public string Name
     {
@@ -46,7 +56,13 @@ public abstract class Creature
         }
     }
 
-    public string Go(Direction direction) => $"{direction.ToString().ToLower()}";
+    public string Go(Direction direction)
+    {
+        //zgodnie z reuglami map
+        return $"{direction.ToString().ToLower()}";
+    }
+
+    //out
     public string[] Go(Direction[] directions)
     {
         var output = new string[directions.Length];
@@ -56,6 +72,8 @@ public abstract class Creature
         }
         return output;
     }
+
+    //out
 
     public string[] Go(string letters) => Go(DirectionParser.Parse(letters));
 
