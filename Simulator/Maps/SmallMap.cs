@@ -17,7 +17,7 @@ public abstract class SmallMap : Map
     {
         PositionInMap(position);
         _fields[position.X, position.Y] ??= new List<Creature>();
-        _fields[position.X, position.Y]?.Add(creature);
+        _fields[position.X, position.Y].Add(creature);
     }
 
     public override void Remove(Creature creature, Point position)

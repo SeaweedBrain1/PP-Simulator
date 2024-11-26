@@ -12,7 +12,7 @@ public class Orc : Creature
     private int huntCounter = 0;
 
     public override int Power => 7 * Level + 3 * rage;
-    public override string Info => $"{Name} [{Level}][{Rage}]";
+    public override string Info => $"ORC: {Name} [{Level}][{Rage}]";
 
 
     public Orc() { }
