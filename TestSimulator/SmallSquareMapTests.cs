@@ -13,7 +13,8 @@ public class SmallSquareMapTests
     {
         int size = 12;
         var map = new SmallSquareMap(size);
-        Assert.Equal(size, map.Size);
+        Assert.Equal(size, map.SizeX);
+        Assert.Equal(size, map.SizeY);
     }
     [Theory]
     [InlineData(4)]
@@ -24,7 +25,7 @@ public class SmallSquareMapTests
         Constructor_InvalidSize_ShouldThrowArgumentOutOfRangeException
         (int size)
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => new SmallTorusMap(size));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new SmallSquareMap(size));
     }
     [Theory]
     [InlineData(1, 2, 5, true)]

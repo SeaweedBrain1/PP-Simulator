@@ -9,12 +9,6 @@ public abstract class Creature
     public Map? Map { get; private set; }
     public Point Position { get; private set; }
 
-    public void InitMapAndPosition(Map map, Point position) { }
-
-
-
-
-
     private string name = "Unknown";
     public string Name
     {
@@ -56,25 +50,22 @@ public abstract class Creature
         }
     }
 
+    public void InitMapAndPosition(Map map, Point position)
+    {
+        if (map == null) throw new ArgumentNullException(nameof(map));
+        if (Map != null) throw new InvalidOperationException($"Creature is already on a map, it can't be moved to another one!");
+        if (!map.Exist(position)) throw new ArgumentException("This map doesn't contain this point!");
+        Map = map;
+        Position = position;
+        map.Add(this, position);
+    }
+
     public string Go(Direction direction)
     {
-        //zgodnie z reuglami map
-        return $"{direction.ToString().ToLower()}";
+        if (Map == null) throw new InvalidOperationException("Creature isn't on a map so it can't move!");
+        var newPosition = Map.Next(Position, direction);
+        Map.Move(this, Position, newPosition);
+        Position = newPosition;
+        return $"{Name} goes {direction.ToString().ToLower()}.";
     }
-
-    //out
-    public string[] Go(Direction[] directions)
-    {
-        var output = new string[directions.Length];
-        for (int i =0; i< directions.Length; i++)
-        {
-            output[i] = Go(directions[i]);
-        }
-        return output;
-    }
-
-    //out
-
-    public string[] Go(string letters) => Go(DirectionParser.Parse(letters));
-
 }

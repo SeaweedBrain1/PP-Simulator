@@ -13,4 +13,30 @@ public abstract class SmallMap : Map
         _fields = new List<Creature>?[sizeX, sizeY];
     }
 
+    public override void Add(Creature creature, Point position)
+    {
+        PositionInMap(position);
+        _fields[position.X, position.Y] ??= new List<Creature>();
+        _fields[position.X, position.Y]?.Add(creature);
+    }
+
+    public override void Remove(Creature creature, Point position)
+    {
+        PositionInMap(position);
+        _fields[position.X, position.Y]?.Remove(creature);
+    }
+
+    public override List<Creature>? At(Point position)
+    {
+        PositionInMap(position);
+        return _fields[position.X, position.Y];
+    }
+
+    public override List<Creature>? At(int x, int y) => At(new Point(x, y));
+
+    private void PositionInMap(Point position)
+    {
+        if (!Exist(position)) throw new ArgumentException("Position outside the map!");
+    }
+
 }
