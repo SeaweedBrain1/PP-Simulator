@@ -103,5 +103,5 @@ public class Simulation
     /// <summary>
     /// Validates moves input.
     /// </summary>
-    private string ValidateMoves(string moves) => new string(moves.Where(c => validMoves.Contains(Char.ToLower(c))).ToArray());
+    private string ValidateMoves(string moves) => new (moves.Where(c => validMoves.Contains(Char.ToLower(c))).ToArray());
 }

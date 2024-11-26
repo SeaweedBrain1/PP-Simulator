@@ -1,5 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Simulator.Maps;
 
@@ -8,15 +12,15 @@ namespace Simulator.Maps;
 /// </summary>
 public abstract class Map
 {
+    private readonly Rectangle bounds;
     public int SizeX { get; }
     public int SizeY { get; }
 
-    private readonly Rectangle bounds;
     protected Map(int sizeX, int sizeY)
     {
-        if (SizeX < 5) throw new ArgumentOutOfRangeException(nameof(SizeX), "Too narrow");
+        if (sizeX < 5) throw new ArgumentOutOfRangeException(nameof(SizeX), "Too narrow");
 
-        if (SizeY < 5) throw new ArgumentOutOfRangeException(nameof(SizeY), "Too short");
+        if (sizeY < 5) throw new ArgumentOutOfRangeException(nameof(SizeY), "Too short");
 
         SizeX = sizeX;
         SizeY = sizeY;
