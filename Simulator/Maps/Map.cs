@@ -28,17 +28,17 @@ public abstract class Map
         bounds = new Rectangle(0, 0, SizeX - 1, SizeY - 1);
     }
 
-    public abstract void Add(Creature creature, Point position);
-    public abstract void Remove(Creature creature, Point position);
-    public void Move(Creature creature, Point positionFrom, Point positionTo)
+    public abstract void Add(IMappable mappable, Point position);
+    public abstract void Remove(IMappable mappable, Point position);
+    public void Move(IMappable mappable, Point positionFrom, Point positionTo)
     {
         if (!Exist(positionFrom) || !Exist(positionTo)) throw new ArgumentException("Map doesn't contain one of the points!");
-        Add(creature, positionTo);
-        Remove(creature, positionFrom);
+        Add(mappable, positionTo);
+        Remove(mappable, positionFrom);
     }
 
-    public abstract List<Creature>? At(int x, int y);
-    public abstract List<Creature>? At(Point position);
+    public abstract List<IMappable>? At(int x, int y);
+    public abstract List<IMappable>? At(Point position);
 
 
 
