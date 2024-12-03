@@ -1,6 +1,7 @@
 ﻿using Simulator.Maps;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -29,6 +30,10 @@ public class Simulation
     /// </summary>
     public string Moves { get; }
     /// <summary>
+    /// List of directions.
+    /// </summary>
+    private List<Direction> ParsedMoves { get; }
+    /// <summary>
     /// Has all moves been done?
     /// </summary>
     public bool Finished = false;
@@ -52,12 +57,7 @@ public class Simulation
     /// </summary>
     public string CurrentMoveName
     {
-        get
-        {
-            var direction = DirectionParser.Parse(Moves[counter % Moves.Length].ToString());
-            if (direction.Any()) return direction[0].ToString().ToLower();
-            return string.Empty;
-        }
+        get => ParsedMoves[counter % ParsedMoves.Count].ToString().ToLower();
     }
     /// <summary>
     /// Simulation constructor.
@@ -81,7 +81,8 @@ public class Simulation
         Map = map ?? throw new ArgumentNullException(nameof(map));
         Mappables = mappables;
         Positions = positions;
-        Moves = ValidateMoves(moves);
+        Moves = moves;
+        ParsedMoves = ValidateMoves(moves);
         for (int i = 0; i < mappables.Count; i++)
         {
             mappables[i].InitMapAndPosition(map, positions[i]);
@@ -95,7 +96,7 @@ public class Simulation
     {
         if (Finished)
             throw new InvalidOperationException("Simulation is finished.");
-        var direction = DirectionParser.Parse(Moves[counter % Moves.Length].ToString())[0];
+        var direction = ParsedMoves[counter % ParsedMoves.Count];
         CurrentMappable.Go(direction);
         counter++;
         if (counter >= Moves.Length) Finished = true;
@@ -103,5 +104,11 @@ public class Simulation
     /// <summary>
     /// Validates moves input.
     /// </summary>
-    private string ValidateMoves(string moves) => new (moves.Where(c => validMoves.Contains(Char.ToLower(c))).ToArray());
+    private List<Direction> ValidateMoves(string moves)
+    {
+        return moves
+            .Where(c => validMoves.Contains(char.ToLower(c)))
+            .Select(c => DirectionParser.Parse(c.ToString()).FirstOrDefault())
+            .ToList();
+    }
 }

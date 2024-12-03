@@ -2,6 +2,7 @@
 
 public class Orc : Creature
 {
+    public override char Symbol => 'O';
     private int rage = 1;
     public int Rage 
     {

@@ -6,6 +6,7 @@ namespace Simulator;
 
 public abstract class Creature : IMappable
 {
+    public virtual char Symbol => 'C';
     public Map? Map { get; private set; }
     public Point Position { get; private set; }
 
