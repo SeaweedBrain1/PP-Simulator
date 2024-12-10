@@ -40,7 +40,10 @@ public abstract class Map
     public abstract List<IMappable>? At(int x, int y);
     public abstract List<IMappable>? At(Point position);
 
-
+    public virtual void PositionInMap(Point position)
+    {
+        if (!Exist(position)) throw new ArgumentException("Position outside the map!");
+    }
 
     /// <summary>
     /// Check if give point belongs to the map.

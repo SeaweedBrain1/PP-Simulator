@@ -9,7 +9,8 @@ internal class Program
         Console.OutputEncoding = Encoding.UTF8;
         SmallSquareMap squareMap = new(5);
         SmallTorusMap torusMap = new(8, 6);
-        List<IMappable> creatures2 = new()
+        BigBounceMap bounceMap = new(8, 6);
+        List<IMappable> creatures = new()
         {
             new Elf("Elandor"),
             new Orc("Gorbag"),
@@ -17,7 +18,7 @@ internal class Program
             new Birds { Description = "Eagles", Size = 2, CanFly = true },
             new Birds { Description = "Ostriches", Size = 2, CanFly = false }
         };
-        List<Point> points2 = new()
+        List<Point> points = new()
         {
             new Point(2, 3),
             new Point(4, 4),
@@ -25,9 +26,9 @@ internal class Program
             new Point(5, 5),
             new Point(0, 0)
         };
-        string moves2 = "druldldrdlrluuu";
-        Simulation simulation = new Simulation(torusMap, creatures2, points2, moves2);
-        MapVisualizer mapVisualizer = new MapVisualizer(torusMap);
+        string moves = "luludlulldllullrdllr";
+        Simulation simulation = new Simulation(bounceMap, creatures, points, moves);
+        MapVisualizer mapVisualizer = new MapVisualizer(bounceMap);
         Console.WriteLine("SIMULATION!");
         Console.WriteLine();
         Console.WriteLine("Starting positions:");
