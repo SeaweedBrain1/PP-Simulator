@@ -28,31 +28,39 @@ internal class Program
         };
         string moves = "luludlulldllullrdllr";
         Simulation simulation = new Simulation(bounceMap, creatures, points, moves);
-        MapVisualizer mapVisualizer = new MapVisualizer(bounceMap);
-        Console.WriteLine("SIMULATION!");
-        Console.WriteLine();
-        Console.WriteLine("Starting positions:");
-        mapVisualizer.Draw();
-        var turn = 1;
-        while (!simulation.Finished)
+        //MapVisualizer mapVisualizer = new MapVisualizer(bounceMap);
+        //Console.WriteLine("SIMULATION!");
+        //Console.WriteLine();
+        //Console.WriteLine("Starting positions:");
+        //mapVisualizer.Draw();
+        //var turn = 1;
+        //while (!simulation.Finished)
+        //{
+        //    ConsoleKeyInfo key = Console.ReadKey(intercept: true);
+        //    Console.WriteLine($"Turn {turn}");
+        //    Console.WriteLine($"{simulation.CurrentMappable} moves {simulation.CurrentMoveName}");
+        //    if (key.Key == ConsoleKey.Spacebar)
+        //    {
+        //        simulation.Turn();
+        //        mapVisualizer.Draw();
+        //        turn++;
+        //    }
+        //}
+
+
+
+        SimulationHistory simulationHistory = new(simulation);
+
+        for (int i = 0; i < simulation.Moves.Length; i++)
         {
-            ConsoleKeyInfo key = Console.ReadKey(intercept: true);
-            Console.WriteLine($"Turn {turn}");
-            Console.WriteLine($"{simulation.CurrentMappable} moves {simulation.CurrentMoveName}");
-            if (key.Key == ConsoleKey.Spacebar)
+            Console.WriteLine($"Tura: {i + 1}\n");
+            Console.WriteLine(simulationHistory.TurnLogs[i].Mappable);
+            Console.WriteLine(simulationHistory.TurnLogs[i].Move);
+            foreach (KeyValuePair<Point, char> kvp in simulationHistory.TurnLogs[i].Symbols)
             {
-                simulation.Turn();
-                mapVisualizer.Draw();
-                turn++;
+                Console.WriteLine($"Postition: {kvp.Key}, Symbol: {kvp.Value}");
             }
+            Console.WriteLine("\n");
         }
-
-        simulation.History.ShowState(5);
-
-        simulation.History.ShowState(10);
-
-        simulation.History.ShowState(15);
-
-        simulation.History.ShowState(20);
     }
 }

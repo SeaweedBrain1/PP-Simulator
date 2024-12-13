@@ -60,8 +60,6 @@ public class Simulation
         get => ParsedMoves[counter % ParsedMoves.Count].ToString().ToLower();
     }
 
-    public SimulationHistory History { get; }
-
     /// <summary>
     /// Simulation constructor.
     /// Throw errors:
@@ -86,17 +84,10 @@ public class Simulation
         Positions = positions;
         Moves = moves;
         ParsedMoves = ValidateMoves(moves);
-        History = new SimulationHistory();
         for (int i = 0; i < mappables.Count; i++)
         {
             mappables[i].InitMapAndPosition(map, positions[i]);
         }
-        History.SaveState(
-            counter,
-            Mappables.ToDictionary(m => m, m => m.Position),
-            null,
-            null
-);
     }
     /// <summary>
     /// Makes one move of current mappable in current direction.
@@ -108,12 +99,6 @@ public class Simulation
             throw new InvalidOperationException("Simulation is finished.");
         var direction = ParsedMoves[counter % ParsedMoves.Count];
         CurrentMappable.Go(direction);
-        History.SaveState(
-            counter,
-            Mappables.ToDictionary(m => m, m => m.Position),
-            CurrentMappable,
-            direction
-);
         counter++;
         if (counter >= Moves.Length) Finished = true;
     }

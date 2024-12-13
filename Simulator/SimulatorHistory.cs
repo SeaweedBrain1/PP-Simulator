@@ -1,38 +1,60 @@
-﻿using Simulator.Maps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-namespace Simulator;
+﻿using Simulator;
+using Simulator.Maps;
+using System.ComponentModel;
+
 public class SimulationHistory
 {
-    private readonly List<State> history = new();
-    public void SaveState(int turn, Dictionary<IMappable, Point> positions, IMappable currentMappable, Direction? currentMove) =>
-        history.Add(new State
-        {
-            Turn = turn,
-            Positions = new Dictionary<IMappable, Point>(positions),
-            CurrentMappable = currentMappable,
-            CurrentMove = currentMove
-        });
-    public void ShowState(int turn)
-    {
-        if (turn < 0 || turn >= history.Count)
-        {
-            throw new ArgumentOutOfRangeException("This Simulation doesn't have this turn!");
-        }
-        var state = history[turn];
-        Console.WriteLine($"Turn: {turn}");
-        if (state.CurrentMappable != null && state.CurrentMove.HasValue) Console.WriteLine($"{state.CurrentMappable.ToString()} moved {state.CurrentMove}");
+    private Simulation _simulation { get; }
+    public int SizeX { get; }
+    public int SizeY { get; }
+    public List<SimulationTurnLog> TurnLogs { get; } = [];
+    // store starting positions at index 0
 
-        foreach (var entry in state.Positions) Console.WriteLine($"{entry.Key} is at {entry.Value}");
-    }
-    private class State
+    public SimulationHistory(Simulation simulation)
     {
-        public int Turn { get; set; }
-        public Dictionary<IMappable, Point> Positions { get; set; } = new();
-        public IMappable? CurrentMappable { get; set; }
-        public Direction? CurrentMove { get; set; }
+        _simulation = simulation ??
+            throw new ArgumentNullException(nameof(simulation));
+        SizeX = _simulation.Map.SizeX;
+        SizeY = _simulation.Map.SizeY;
+        Run();
+    }
+
+    private void Run()
+    {
+        for (int i = 0; i < _simulation.Moves.Length; i++)
+        {
+            TurnLogs.Add(new SimulationTurnLog
+            {
+                Mappable = _simulation.CurrentMappable.ToString(),
+                Move = _simulation.CurrentMoveName.ToString(),
+                Symbols = _simulation.Mappables.GroupBy(mappable => mappable.Position).ToDictionary(
+                    group => group.Key,
+                    group => group.Count() > 1 ? 'X' : group.First().Symbol
+                    )
+            });
+
+            _simulation.Turn();
+        }
+    }
+
+    /// <summary>
+    /// State of map after single simulation turn.
+    /// </summary>
+    public class SimulationTurnLog
+    {
+        /// <summary>
+        /// Text representastion of moving object in this turn.
+        /// CurrentMappable.ToString()
+        /// </summary>
+        public required string Mappable { get; init; }
+        /// <summary>
+        /// Text representation of move in this turn.
+        /// CurrentMoveName.ToString();
+        /// </summary>
+        public required string Move { get; init; }
+        /// <summary>
+        /// Dictionary of IMappable.Symbol on the map in this turn.
+        /// </summary>
+        public required Dictionary<Point, char> Symbols { get; init; }
     }
 }
