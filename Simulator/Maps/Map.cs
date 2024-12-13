@@ -16,6 +16,8 @@ public abstract class Map
     public int SizeX { get; }
     public int SizeY { get; }
 
+    private Dictionary<Point, List<IMappable>> _fields;
+
     protected Map(int sizeX, int sizeY)
     {
         if (sizeX < 5) throw new ArgumentOutOfRangeException(nameof(SizeX), "Too narrow");
@@ -26,10 +28,27 @@ public abstract class Map
         SizeY = sizeY;
 
         bounds = new Rectangle(0, 0, SizeX - 1, SizeY - 1);
+        _fields = new Dictionary<Point, List<IMappable>>();
     }
 
-    public abstract void Add(IMappable mappable, Point position);
-    public abstract void Remove(IMappable mappable, Point position);
+    public virtual void Add(IMappable mappable, Point position)
+    {
+        PositionInMap(position);
+        AddPositionToDict(position);
+        _fields[position].Add(mappable);
+    }
+    public virtual void Remove(IMappable mappable, Point position)
+    {
+        PositionInMap(position);
+        if (_fields.ContainsKey(position))
+        {
+            _fields[position].Remove(mappable);
+            if (_fields[position].Count == 0)
+            {
+                _fields.Remove(position);
+            }
+        }
+    }
     public void Move(IMappable mappable, Point positionFrom, Point positionTo)
     {
         if (!Exist(positionFrom) || !Exist(positionTo)) throw new ArgumentException("Map doesn't contain one of the points!");
@@ -37,12 +56,26 @@ public abstract class Map
         Remove(mappable, positionFrom);
     }
 
-    public abstract List<IMappable>? At(int x, int y);
-    public abstract List<IMappable>? At(Point position);
+    public virtual List<IMappable>? At(Point position)
+    {
+        PositionInMap(position);
+        AddPositionToDict(position);
+        return _fields[position];
+    }
+
+    public virtual List<IMappable>? At(int x, int y) => At(new Point(x, y));
 
     public virtual void PositionInMap(Point position)
     {
         if (!Exist(position)) throw new ArgumentException("Position outside the map!");
+    }
+
+    private void AddPositionToDict(Point position)
+    {
+        if (!_fields.ContainsKey(position))
+        {
+            _fields[position] = new List<IMappable>();
+        }
     }
 
     /// <summary>
