@@ -51,16 +51,24 @@ internal class Program
 
         SimulationHistory simulationHistory = new(simulation);
 
+        //for (int i = 0; i < simulation.Moves.Length; i++)
+        //{
+        //    Console.WriteLine($"Tura: {i + 1}\n");
+        //    Console.WriteLine(simulationHistory.TurnLogs[i].Mappable);
+        //    Console.WriteLine(simulationHistory.TurnLogs[i].Move);
+        //    foreach (KeyValuePair<Point, char> kvp in simulationHistory.TurnLogs[i].Symbols)
+        //    {
+        //        Console.WriteLine($"Postition: {kvp.Key}, Symbol: {kvp.Value}");
+        //    }
+        //    Console.WriteLine("\n");
+        //}
+
+
+        LogVisualizer logVisualizer = new(simulationHistory);
         for (int i = 0; i < simulation.Moves.Length; i++)
         {
-            Console.WriteLine($"Tura: {i + 1}\n");
-            Console.WriteLine(simulationHistory.TurnLogs[i].Mappable);
-            Console.WriteLine(simulationHistory.TurnLogs[i].Move);
-            foreach (KeyValuePair<Point, char> kvp in simulationHistory.TurnLogs[i].Symbols)
-            {
-                Console.WriteLine($"Postition: {kvp.Key}, Symbol: {kvp.Value}");
-            }
-            Console.WriteLine("\n");
+            logVisualizer.Draw(i);
+            Console.WriteLine($"{simulationHistory.TurnLogs[i].Mappable} moves {simulationHistory.TurnLogs[i].Move}");
         }
     }
 }
