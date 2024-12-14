@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Site Name</title>
+    <link rel="stylesheet" href="~/css/site.css"
+          asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <b>SimWeb</b>
+        <nav class="navbar">
+            <a asp-area="" asp-page="/Index">Strona główna</a>
+            <a asp-area="" asp-page="/Simulation">Symulacja</a>
+        </nav>
+    </header>
+    <main>
+        @RenderBody()
+    </main>
+</body>
+</html>

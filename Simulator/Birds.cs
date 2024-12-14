@@ -2,7 +2,7 @@
 
 public class Birds : Animals
 {
-    public override char Symbol => CanFly ? 'B' : 'b';
+    public override char Symbol => CanFly ? 'B' : 'N';
     private bool canFly = true;
     public bool CanFly
     {

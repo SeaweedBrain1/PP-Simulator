@@ -1,0 +1,57 @@
+﻿@page
+@model SimulationModel
+
+<style>
+    .map {
+        grid-template-columns: max-content repeat(@Model.SimulationHistory.SizeX, max-content);
+        grid-template-rows: repeat(@Model.SimulationHistory.SizeY, 1fr) max-content;
+    }
+</style>
+
+<container class="map-container">
+    <div class="map-header">
+        <form method="post" asp-page-handler="ChangeTurn">
+            <input type="hidden" name="turn" value="@Model.CurrentTurn" />
+            <button class="button" name="direction" value="prev" @(Model.CurrentTurn == 0 ? "disabled" : "")>◀</button>
+        </form>
+
+        <div class="turn">Tura: @Model.CurrentTurn</div>
+
+        <form method="post" asp-page-handler="ChangeTurn">
+            <input type="hidden" name="turn" value="@Model.CurrentTurn" />
+            <button class="button" name="direction" value="next" @(Model.CurrentTurn == Model.MaxTurn ? "disabled" : "")>▶</button>
+        </form>
+    </div>
+
+    <div class="map">
+        @for (int y = Model.SimulationHistory.SizeY-1; y >= 0; y--)
+        {
+            <a class="number">@y</a>
+            @for (int x = 0; x < Model.SimulationHistory.SizeX; x++)
+            {
+                var position = new Point(x, y);
+                var symbol = Model.SimulationHistory.TurnLogs[Model.CurrentTurn].Symbols.ContainsKey(position) ?
+                Model.SimulationHistory.TurnLogs[Model.CurrentTurn].Symbols[position].ToString() : "";
+                <div class="cell">
+                    <img class="symbol" src="/Symbols/@(symbol).png" alt="@symbol">
+                </div>
+            }
+        }
+        <a class="number">X</a>
+        @for (int x = 0; x < Model.SimulationHistory.SizeX; x++)
+        {
+            <a class="number">@x</a>
+        }
+    </div>
+
+    <div class="map-header">
+        @if (Model.CurrentTurn==0)
+        {
+            <span class="alert">Pozycje startowe</span>
+        }
+        else
+        {
+            <span class="alert">@Model.SimulationHistory.TurnLogs[Model.CurrentTurn].Mappable goes @Model.SimulationHistory.TurnLogs[Model.CurrentTurn].Move</span>
+        }
+    </div>
+</container>
